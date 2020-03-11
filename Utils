@@ -1,0 +1,34 @@
+
+import java.util.List;
+
+import javax.persistence.Query;
+
+public class Utils {
+	
+	/**
+	 * Método que converte uma Query em seu objeto VO correspondente
+	 * 
+	 * @author DanielFilho
+	 * @param query
+	 * @param class1
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws InstantiationException
+	 * @throws IllegalAccessException
+	 */
+	@SuppressWarnings({ "unchecked" })
+	public static<T> T converteQueryToObject(Query query, Class<?> class1) throws ClassNotFoundException, 
+		InstantiationException, IllegalAccessException {
+		
+		Class<?> Classe = Class.forName(class1.getCanonicalName());
+		
+		Object result = (Object) Classe.newInstance();
+		
+		List<?> queryResult = query.getResultList();
+		if (queryResult != null && !queryResult.isEmpty()) {
+			result = queryResult.get(0);	
+		}
+		return (T) result;
+	}
+
+}
